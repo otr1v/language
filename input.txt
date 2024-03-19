@@ -1,0 +1,16 @@
+main
+{
+    int abfkfkf;
+    abfkfkf = 28;
+    int b;
+    int c = 30;
+    b = abfkfkf + 1;
+    c = b;
+    if (c == b)
+    {
+        int d = 99;
+    }
+    -- kfkfjsofokfepkvsjnkv
+    int k = 39;
+}
+
