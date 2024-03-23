@@ -65,30 +65,6 @@ void PrintReg(int index)
             printf("no reg found");
             break;
     }
-   /* if (idx == REG_RAX)
-    {
-        printf("rax\n");
-    }
-    else if (idx == REG_RBX)
-    {
-        printf("rbx\n");
-    }
-    else if (idx == REG_RCX)
-    {
-        printf("rcx\n");
-    }
-    else if (idx == REG_RDX)
-    {
-        printf("rdx\n");
-    }
-    else if (idx == REG_REX)
-    {
-        printf("rex\n");
-    }
-    else if (idx == REG_RFX)
-    {
-        printf("rfx\n");
-    }*/
 }
 
 %}
