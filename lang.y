@@ -5,7 +5,7 @@
 #include <stdlib.h>
 int yylex();
 void yyerror(char *s);
-
+extern FILE *yyout;
 int num_of_vars = 0;
 int idx = -1;
 int counter_of_labels = 0;
@@ -16,6 +16,7 @@ const int REG_RCX             = 2;
 const int REG_RDX             = 3;
 const int REG_REX             = 4;
 const int REG_RFX             = 5;
+
 
 struct variable_struct
 		{
@@ -40,32 +41,30 @@ int FindVar(char* var)
 
 void PrintReg(int index)
 {
-    FILE* out = fopen("bisonout.txt", "a+");
     if (idx == REG_RAX)
     {
-        fprintf(out, "rax\n");
+        printf("rax\n");
     }
     else if (idx == REG_RBX)
     {
-        fprintf(out, "rbx\n");
+        printf("rbx\n");
     }
     else if (idx == REG_RCX)
     {
-        fprintf(out, "rcx\n");
+        printf("rcx\n");
     }
     else if (idx == REG_RDX)
     {
-        fprintf(out, "rdx\n");
+        printf("rdx\n");
     }
     else if (idx == REG_REX)
     {
-        fprintf(out, "rex\n");
+        printf("rex\n");
     }
     else if (idx == REG_RFX)
     {
-        fprintf(out, "rfx\n");
+        printf("rfx\n");
     }
-    fclose(out);
 }
 
 %}
@@ -77,14 +76,15 @@ void PrintReg(int index)
 %type <number> NUM 
 
 %union{
-    long number;
+    int number;
 	char* name;
 }
 
 %%
 
-program: {FILE* out = fopen("bisonout.txt", "a+"); fprintf(out, "ASM 2\n"); fclose(out);}
-| program mainfunc 
+
+program: { printf("ASM 2\n");}
+| program mainfunc {}
 ;  
 
 mainfunc: MAIN CURLYOB commands CURLYCB
@@ -114,9 +114,7 @@ declaration:
     {
         variable[num_of_vars].var_name = calloc(MAX_VARIABLE_LENGTH, sizeof(char));
         variable[num_of_vars++].var_name = strdup($2);
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "pop ");
-        fclose(out);
+        printf("pop ");
         PrintReg(num_of_vars - 1);
 
     }
@@ -125,9 +123,7 @@ declaration:
 condition:
     IF CIRCLEOB bool_exp CIRCLECB CURLYOB commands CURLYCB
     {
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, ":%d\n", counter_of_labels - 1);
-        fclose(out);
+        printf(":%d\n", counter_of_labels - 1);
     }
     |
     condition CURLYOB commands CURLYCB
@@ -141,19 +137,13 @@ elif_condition:
 bool_exp:
     VARYABLE EQUALS VARYABLE    
     {
-        FILE* out = fopen("bisonout.txt", "a+");
         idx = FindVar($1);
-        fprintf(out, "push ");
-        fclose(out);
+        printf("push ");
         PrintReg(idx);
-        out = fopen("bisonout.txt", "a+");
         idx = FindVar($3);
-        fprintf(out, "push ");
-        fclose(out);
+        printf("push ");
         PrintReg(idx);
-        out = fopen("bisonout.txt", "a+");
-        fprintf(out, "je :%d\n", counter_of_labels++);
-        fclose(out); 
+        printf("je :%d\n", counter_of_labels++);
     }
 |   VARYABLE NOT_EQUALS VARYABLE
     {
@@ -186,9 +176,7 @@ assignmemt:
     VARYABLE ASSIGN exp SEMICOLON
     {
         idx = FindVar($1);
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "pop ");
-        fclose(out);
+        printf("pop ");
         PrintReg(idx);   
     }
     
@@ -199,40 +187,27 @@ exp:
     NUM
     {
        
-       FILE* bisonout = fopen("bisonout.txt", "a+");
-       fprintf(bisonout, "push %d\n", $1);
-       fclose(bisonout);
+       printf("push %d\n", $1);
     }
     |
     VARYABLE
     {
         idx = FindVar($1);
-        FILE* bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push ");
-        fclose(bisonout);
+        printf("push ");
         PrintReg(idx);
-        bisonout = fopen("bisonout.txt", "a+");
-        fclose(bisonout);
     }
     |
     NUM ADD NUM
     {
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "push %d\npush %d\nADD\n", $1, $3);
-        fclose(out);
+        printf("push %d\npush %d\nADD\n", $1, $3);
     }
     |
     VARYABLE ADD NUM
     {
         idx = FindVar($1);
-        FILE* bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push ");
-        printf("INDEX %d", idx);
-        fclose(bisonout);
+        printf("push ");
         PrintReg(idx);
-        bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push %d\nADD\n", $3);
-        fclose(bisonout);
+        printf("push %d\nADD\n", $3);
     }
     |
     VARYABLE SUB NUM
@@ -262,5 +237,6 @@ void yyerror(char *s)
 
 int main()
 {
+    yyout = freopen("out.txt","w",stdout);
     yyparse();
 }
