@@ -41,7 +41,31 @@ int FindVar(char* var)
 
 void PrintReg(int index)
 {
-    if (idx == REG_RAX)
+    switch(index)
+    {
+        case 0:         // == REG_RAX
+            printf("rax\n");
+            break;
+        case 1:         // == REG_RBX
+            printf("rbx\n");
+            break;
+        case 2:         // == REG_RCX
+            printf("rcx\n");
+            break;
+        case 3:         // == REG_RDX
+            printf("rdx\n");
+            break;
+        case 4:         // == REG_REX
+            printf("rex\n");
+            break;
+        case 5:         // == REG_RFX
+            printf("rfx\n");
+            break;
+        default:
+            printf("no reg found");
+            break;
+    }
+   /* if (idx == REG_RAX)
     {
         printf("rax\n");
     }
@@ -64,7 +88,7 @@ void PrintReg(int index)
     else if (idx == REG_RFX)
     {
         printf("rfx\n");
-    }
+    }*/
 }
 
 %}

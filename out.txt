@@ -1,0 +1,19 @@
+ASM 2
+push 28
+pop rax
+push 30
+pop rcx
+push rax
+push 1
+ADD
+pop rbx
+push rbx
+pop rcx
+push rcx
+push rbx
+je :0
+push 99
+pop rdx
+:0
+push 39
+pop rex

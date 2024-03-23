@@ -115,9 +115,9 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 79 "lang.y"
+#line 102 "lang.y"
 
-    long number;
+    int number;
 	char* name;
 
 #line 124 "y.tab.h"

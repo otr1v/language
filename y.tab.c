@@ -74,7 +74,7 @@
 #include <stdlib.h>
 int yylex();
 void yyerror(char *s);
-
+extern FILE *yyout;
 int num_of_vars = 0;
 int idx = -1;
 int counter_of_labels = 0;
@@ -85,6 +85,7 @@ const int REG_RCX             = 2;
 const int REG_RDX             = 3;
 const int REG_REX             = 4;
 const int REG_RFX             = 5;
+
 
 struct variable_struct
 		{
@@ -109,36 +110,58 @@ int FindVar(char* var)
 
 void PrintReg(int index)
 {
-    FILE* out = fopen("bisonout.txt", "a+");
-    if (idx == REG_RAX)
+    switch(index)
     {
-        fprintf(out, "rax\n");
+        case 0:         // == REG_RAX
+            printf("rax\n");
+            break;
+        case 1:         // == REG_RBX
+            printf("rbx\n");
+            break;
+        case 2:         // == REG_RCX
+            printf("rcx\n");
+            break;
+        case 3:         // == REG_RDX
+            printf("rdx\n");
+            break;
+        case 4:         // == REG_REX
+            printf("rex\n");
+            break;
+        case 5:         // == REG_RFX
+            printf("rfx\n");
+            break;
+        default:
+            printf("no reg found");
+            break;
+    }
+   /* if (idx == REG_RAX)
+    {
+        printf("rax\n");
     }
     else if (idx == REG_RBX)
     {
-        fprintf(out, "rbx\n");
+        printf("rbx\n");
     }
     else if (idx == REG_RCX)
     {
-        fprintf(out, "rcx\n");
+        printf("rcx\n");
     }
     else if (idx == REG_RDX)
     {
-        fprintf(out, "rdx\n");
+        printf("rdx\n");
     }
     else if (idx == REG_REX)
     {
-        fprintf(out, "rex\n");
+        printf("rex\n");
     }
     else if (idx == REG_RFX)
     {
-        fprintf(out, "rfx\n");
-    }
-    fclose(out);
+        printf("rfx\n");
+    }*/
 }
 
 
-#line 142 "y.tab.c"
+#line 165 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -243,12 +266,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 79 "lang.y"
+#line 102 "lang.y"
 
-    long number;
+    int number;
 	char* name;
 
-#line 252 "y.tab.c"
+#line 275 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -695,10 +718,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    86,    86,    87,    90,    96,    97,    98,    99,   100,
-     101,   102,   106,   113,   126,   133,   137,   142,   158,   162,
-     166,   172,   178,   186,   199,   207,   218,   225,   238,   240,
-     242,   244,   246,   248,   250
+       0,   110,   110,   111,   114,   120,   121,   122,   123,   124,
+     125,   126,   130,   137,   148,   153,   157,   162,   172,   176,
+     180,   186,   192,   200,   211,   217,   224,   229,   237,   239,
+     241,   243,   245,   247,   249
 };
 #endif
 
@@ -1307,214 +1330,195 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: %empty  */
-#line 86 "lang.y"
-         {FILE* out = fopen("bisonout.txt", "a+"); fprintf(out, "ASM 2\n"); fclose(out);}
-#line 1313 "y.tab.c"
+#line 110 "lang.y"
+         { printf("ASM 2\n");}
+#line 1336 "y.tab.c"
+    break;
+
+  case 3: /* program: program mainfunc  */
+#line 111 "lang.y"
+                   {}
+#line 1342 "y.tab.c"
     break;
 
   case 4: /* mainfunc: MAIN CURLYOB commands CURLYCB  */
-#line 91 "lang.y"
+#line 115 "lang.y"
 {
     
 }
-#line 1321 "y.tab.c"
+#line 1350 "y.tab.c"
     break;
 
   case 6: /* commands: declaration commands  */
-#line 97 "lang.y"
+#line 121 "lang.y"
                          {}
-#line 1327 "y.tab.c"
+#line 1356 "y.tab.c"
     break;
 
   case 7: /* commands: condition commands  */
-#line 98 "lang.y"
+#line 122 "lang.y"
                       {}
-#line 1333 "y.tab.c"
+#line 1362 "y.tab.c"
     break;
 
   case 8: /* commands: loop commands  */
-#line 99 "lang.y"
+#line 123 "lang.y"
                  {}
-#line 1339 "y.tab.c"
+#line 1368 "y.tab.c"
     break;
 
   case 9: /* commands: print commands  */
-#line 100 "lang.y"
+#line 124 "lang.y"
                   {}
-#line 1345 "y.tab.c"
+#line 1374 "y.tab.c"
     break;
 
   case 10: /* commands: assignmemt commands  */
-#line 101 "lang.y"
+#line 125 "lang.y"
                        {}
-#line 1351 "y.tab.c"
+#line 1380 "y.tab.c"
     break;
 
   case 11: /* commands: elif_condition commands  */
-#line 102 "lang.y"
+#line 126 "lang.y"
                            {}
-#line 1357 "y.tab.c"
+#line 1386 "y.tab.c"
     break;
 
   case 12: /* declaration: TYPE VARYABLE SEMICOLON  */
-#line 107 "lang.y"
+#line 131 "lang.y"
     {
         variable[num_of_vars].var_name = calloc(MAX_VARIABLE_LENGTH, sizeof(char));
         variable[num_of_vars++].var_name = strdup((yyvsp[-1].name));
         
     }
-#line 1367 "y.tab.c"
+#line 1396 "y.tab.c"
     break;
 
   case 13: /* declaration: TYPE VARYABLE ASSIGN exp SEMICOLON  */
-#line 114 "lang.y"
+#line 138 "lang.y"
     {
         variable[num_of_vars].var_name = calloc(MAX_VARIABLE_LENGTH, sizeof(char));
         variable[num_of_vars++].var_name = strdup((yyvsp[-3].name));
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "pop ");
-        fclose(out);
+        printf("pop ");
         PrintReg(num_of_vars - 1);
 
     }
-#line 1381 "y.tab.c"
+#line 1408 "y.tab.c"
     break;
 
   case 14: /* condition: IF CIRCLEOB bool_exp CIRCLECB CURLYOB commands CURLYCB  */
-#line 127 "lang.y"
+#line 149 "lang.y"
     {
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, ":%d\n", counter_of_labels - 1);
-        fclose(out);
+        printf(":%d\n", counter_of_labels - 1);
     }
-#line 1391 "y.tab.c"
+#line 1416 "y.tab.c"
     break;
 
   case 17: /* bool_exp: VARYABLE EQUALS VARYABLE  */
-#line 143 "lang.y"
+#line 163 "lang.y"
     {
-        FILE* out = fopen("bisonout.txt", "a+");
         idx = FindVar((yyvsp[-2].name));
-        fprintf(out, "push ");
-        fclose(out);
+        printf("push ");
         PrintReg(idx);
-        out = fopen("bisonout.txt", "a+");
         idx = FindVar((yyvsp[0].name));
-        fprintf(out, "push ");
-        fclose(out);
+        printf("push ");
         PrintReg(idx);
-        out = fopen("bisonout.txt", "a+");
-        fprintf(out, "je :%d\n", counter_of_labels++);
-        fclose(out); 
+        printf("je :%d\n", counter_of_labels++);
     }
-#line 1411 "y.tab.c"
+#line 1430 "y.tab.c"
     break;
 
   case 18: /* bool_exp: VARYABLE NOT_EQUALS VARYABLE  */
-#line 159 "lang.y"
-    {
-        
-    }
-#line 1419 "y.tab.c"
-    break;
-
-  case 19: /* bool_exp: VARYABLE MORE VARYABLE  */
-#line 163 "lang.y"
-    {
-
-    }
-#line 1427 "y.tab.c"
-    break;
-
-  case 20: /* bool_exp: VARYABLE LESS VARYABLE  */
-#line 167 "lang.y"
-    {
-
-    }
-#line 1435 "y.tab.c"
-    break;
-
-  case 21: /* loop: FOR CIRCLEOB assignmemt SEMICOLON bool_exp SEMICOLON assignmemt CIRCLECB CURLYOB commands CURLYCB  */
 #line 173 "lang.y"
     {
         
     }
-#line 1443 "y.tab.c"
+#line 1438 "y.tab.c"
+    break;
+
+  case 19: /* bool_exp: VARYABLE MORE VARYABLE  */
+#line 177 "lang.y"
+    {
+
+    }
+#line 1446 "y.tab.c"
+    break;
+
+  case 20: /* bool_exp: VARYABLE LESS VARYABLE  */
+#line 181 "lang.y"
+    {
+
+    }
+#line 1454 "y.tab.c"
+    break;
+
+  case 21: /* loop: FOR CIRCLEOB assignmemt SEMICOLON bool_exp SEMICOLON assignmemt CIRCLECB CURLYOB commands CURLYCB  */
+#line 187 "lang.y"
+    {
+        
+    }
+#line 1462 "y.tab.c"
     break;
 
   case 22: /* print: LETMESEE CIRCLEOB VARYABLE CIRCLECB SEMICOLON  */
-#line 179 "lang.y"
+#line 193 "lang.y"
     {
 
     }
-#line 1451 "y.tab.c"
+#line 1470 "y.tab.c"
     break;
 
   case 23: /* assignmemt: VARYABLE ASSIGN exp SEMICOLON  */
-#line 187 "lang.y"
+#line 201 "lang.y"
     {
         idx = FindVar((yyvsp[-3].name));
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "pop ");
-        fclose(out);
+        printf("pop ");
         PrintReg(idx);   
     }
-#line 1463 "y.tab.c"
+#line 1480 "y.tab.c"
     break;
 
   case 24: /* exp: NUM  */
-#line 200 "lang.y"
+#line 212 "lang.y"
     {
        
-       FILE* bisonout = fopen("bisonout.txt", "a+");
-       fprintf(bisonout, "push %d\n", (yyvsp[0].number));
-       fclose(bisonout);
+       printf("push %d\n", (yyvsp[0].number));
     }
-#line 1474 "y.tab.c"
+#line 1489 "y.tab.c"
     break;
 
   case 25: /* exp: VARYABLE  */
-#line 208 "lang.y"
+#line 218 "lang.y"
     {
         idx = FindVar((yyvsp[0].name));
-        FILE* bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push ");
-        fclose(bisonout);
+        printf("push ");
         PrintReg(idx);
-        bisonout = fopen("bisonout.txt", "a+");
-        fclose(bisonout);
     }
-#line 1488 "y.tab.c"
+#line 1499 "y.tab.c"
     break;
 
   case 26: /* exp: NUM ADD NUM  */
-#line 219 "lang.y"
+#line 225 "lang.y"
     {
-        FILE* out = fopen("bisonout.txt", "a+");
-        fprintf(out, "push %d\npush %d\nADD\n", (yyvsp[-2].number), (yyvsp[0].number));
-        fclose(out);
+        printf("push %d\npush %d\nADD\n", (yyvsp[-2].number), (yyvsp[0].number));
     }
-#line 1498 "y.tab.c"
+#line 1507 "y.tab.c"
     break;
 
   case 27: /* exp: VARYABLE ADD NUM  */
-#line 226 "lang.y"
+#line 230 "lang.y"
     {
         idx = FindVar((yyvsp[-2].name));
-        FILE* bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push ");
-        printf("INDEX %d", idx);
-        fclose(bisonout);
+        printf("push ");
         PrintReg(idx);
-        bisonout = fopen("bisonout.txt", "a+");
-        fprintf(bisonout, "push %d\nADD\n", (yyvsp[0].number));
-        fclose(bisonout);
+        printf("push %d\nADD\n", (yyvsp[0].number));
     }
-#line 1514 "y.tab.c"
+#line 1518 "y.tab.c"
     break;
 
 
-#line 1518 "y.tab.c"
+#line 1522 "y.tab.c"
 
       default: break;
     }
@@ -1707,7 +1711,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 253 "lang.y"
+#line 252 "lang.y"
 
 
 void yyerror(char *s)
@@ -1720,5 +1724,6 @@ void yyerror(char *s)
 
 int main()
 {
+    yyout = freopen("out.txt","w",stdout);
     yyparse();
 }

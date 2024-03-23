@@ -13,7 +13,7 @@ NUM ([0-9])+
 %%
 
 "main"                 {  return MAIN;}
-{NUM}              { yylval.number = atoi(yytext); printf("numdd");return (NUM); }
+{NUM}              { yylval.number = atoi(yytext); return (NUM); }
 "int"                  {return TYPE;}
 "char"                 {return TYPE;}
 "if"                   { return IF;}
