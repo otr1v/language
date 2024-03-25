@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "y.tab.h"
 const int MAX_VARIABLE_LENGTH = 32;
-
+int lineno = 0;
 
 int number_of_vars = 0;
 %}
@@ -38,7 +38,7 @@ NUM ([0-9])+
 ")"                   {return CIRCLECB;}
 "="                   {return ASSIGN;}
 [ \t]    {}
-[ \n]    {}        
+[ \n]    {lineno++;}        
 "--"[a-zA-Z()0-9\\ * / - + \"]*[\nEOF] {}     // comment
 .    {printf("%s\n", yytext);}  ;   
 %%

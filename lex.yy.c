@@ -482,7 +482,7 @@ char *yytext;
 #include <stdbool.h>
 #include "y.tab.h"
 const int MAX_VARIABLE_LENGTH = 32;
-
+int lineno = 0;
 
 int number_of_vars = 0;
 #line 489 "lex.yy.c"
@@ -883,7 +883,7 @@ case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
 #line 41 "lex.l"
-{}        
+{lineno++;}        
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */

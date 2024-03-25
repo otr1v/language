@@ -6,6 +6,7 @@
 int yylex();
 void yyerror(char *s);
 extern FILE *yyout;
+extern int lineno;
 int num_of_vars = 0;
 int idx = -1;
 int counter_of_labels = 0;
@@ -229,7 +230,7 @@ exp:
 
 void yyerror(char *s)
 {
-	printf("Syntax Error \n");
+	printf("Syntax Error on line:  %d", lineno);
 	
 }
 

@@ -75,6 +75,7 @@
 int yylex();
 void yyerror(char *s);
 extern FILE *yyout;
+extern int lineno;
 int num_of_vars = 0;
 int idx = -1;
 int counter_of_labels = 0;
@@ -134,34 +135,10 @@ void PrintReg(int index)
             printf("no reg found");
             break;
     }
-   /* if (idx == REG_RAX)
-    {
-        printf("rax\n");
-    }
-    else if (idx == REG_RBX)
-    {
-        printf("rbx\n");
-    }
-    else if (idx == REG_RCX)
-    {
-        printf("rcx\n");
-    }
-    else if (idx == REG_RDX)
-    {
-        printf("rdx\n");
-    }
-    else if (idx == REG_REX)
-    {
-        printf("rex\n");
-    }
-    else if (idx == REG_RFX)
-    {
-        printf("rfx\n");
-    }*/
 }
 
 
-#line 165 "y.tab.c"
+#line 142 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -266,12 +243,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 102 "lang.y"
+#line 79 "lang.y"
 
     int number;
 	char* name;
 
-#line 275 "y.tab.c"
+#line 252 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -718,10 +695,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   110,   110,   111,   114,   120,   121,   122,   123,   124,
-     125,   126,   130,   137,   148,   153,   157,   162,   172,   176,
-     180,   186,   192,   200,   211,   217,   224,   229,   237,   239,
-     241,   243,   245,   247,   249
+       0,    87,    87,    88,    91,    97,    98,    99,   100,   101,
+     102,   103,   107,   114,   125,   130,   134,   139,   149,   153,
+     157,   163,   169,   177,   188,   194,   201,   206,   214,   216,
+     218,   220,   222,   224,   226
 };
 #endif
 
@@ -1330,73 +1307,73 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: %empty  */
-#line 110 "lang.y"
+#line 87 "lang.y"
          { printf("ASM 2\n");}
-#line 1336 "y.tab.c"
+#line 1313 "y.tab.c"
     break;
 
   case 3: /* program: program mainfunc  */
-#line 111 "lang.y"
+#line 88 "lang.y"
                    {}
-#line 1342 "y.tab.c"
+#line 1319 "y.tab.c"
     break;
 
   case 4: /* mainfunc: MAIN CURLYOB commands CURLYCB  */
-#line 115 "lang.y"
+#line 92 "lang.y"
 {
     
 }
-#line 1350 "y.tab.c"
+#line 1327 "y.tab.c"
     break;
 
   case 6: /* commands: declaration commands  */
-#line 121 "lang.y"
+#line 98 "lang.y"
                          {}
-#line 1356 "y.tab.c"
+#line 1333 "y.tab.c"
     break;
 
   case 7: /* commands: condition commands  */
-#line 122 "lang.y"
+#line 99 "lang.y"
                       {}
-#line 1362 "y.tab.c"
+#line 1339 "y.tab.c"
     break;
 
   case 8: /* commands: loop commands  */
-#line 123 "lang.y"
+#line 100 "lang.y"
                  {}
-#line 1368 "y.tab.c"
+#line 1345 "y.tab.c"
     break;
 
   case 9: /* commands: print commands  */
-#line 124 "lang.y"
+#line 101 "lang.y"
                   {}
-#line 1374 "y.tab.c"
+#line 1351 "y.tab.c"
     break;
 
   case 10: /* commands: assignmemt commands  */
-#line 125 "lang.y"
+#line 102 "lang.y"
                        {}
-#line 1380 "y.tab.c"
+#line 1357 "y.tab.c"
     break;
 
   case 11: /* commands: elif_condition commands  */
-#line 126 "lang.y"
+#line 103 "lang.y"
                            {}
-#line 1386 "y.tab.c"
+#line 1363 "y.tab.c"
     break;
 
   case 12: /* declaration: TYPE VARYABLE SEMICOLON  */
-#line 131 "lang.y"
+#line 108 "lang.y"
     {
         variable[num_of_vars].var_name = calloc(MAX_VARIABLE_LENGTH, sizeof(char));
         variable[num_of_vars++].var_name = strdup((yyvsp[-1].name));
         
     }
-#line 1396 "y.tab.c"
+#line 1373 "y.tab.c"
     break;
 
   case 13: /* declaration: TYPE VARYABLE ASSIGN exp SEMICOLON  */
-#line 138 "lang.y"
+#line 115 "lang.y"
     {
         variable[num_of_vars].var_name = calloc(MAX_VARIABLE_LENGTH, sizeof(char));
         variable[num_of_vars++].var_name = strdup((yyvsp[-3].name));
@@ -1404,19 +1381,19 @@ yyreduce:
         PrintReg(num_of_vars - 1);
 
     }
-#line 1408 "y.tab.c"
+#line 1385 "y.tab.c"
     break;
 
   case 14: /* condition: IF CIRCLEOB bool_exp CIRCLECB CURLYOB commands CURLYCB  */
-#line 149 "lang.y"
+#line 126 "lang.y"
     {
         printf(":%d\n", counter_of_labels - 1);
     }
-#line 1416 "y.tab.c"
+#line 1393 "y.tab.c"
     break;
 
   case 17: /* bool_exp: VARYABLE EQUALS VARYABLE  */
-#line 163 "lang.y"
+#line 140 "lang.y"
     {
         idx = FindVar((yyvsp[-2].name));
         printf("push ");
@@ -1426,99 +1403,99 @@ yyreduce:
         PrintReg(idx);
         printf("je :%d\n", counter_of_labels++);
     }
-#line 1430 "y.tab.c"
+#line 1407 "y.tab.c"
     break;
 
   case 18: /* bool_exp: VARYABLE NOT_EQUALS VARYABLE  */
-#line 173 "lang.y"
+#line 150 "lang.y"
     {
         
     }
-#line 1438 "y.tab.c"
+#line 1415 "y.tab.c"
     break;
 
   case 19: /* bool_exp: VARYABLE MORE VARYABLE  */
-#line 177 "lang.y"
+#line 154 "lang.y"
     {
 
     }
-#line 1446 "y.tab.c"
+#line 1423 "y.tab.c"
     break;
 
   case 20: /* bool_exp: VARYABLE LESS VARYABLE  */
-#line 181 "lang.y"
+#line 158 "lang.y"
     {
 
     }
-#line 1454 "y.tab.c"
+#line 1431 "y.tab.c"
     break;
 
   case 21: /* loop: FOR CIRCLEOB assignmemt SEMICOLON bool_exp SEMICOLON assignmemt CIRCLECB CURLYOB commands CURLYCB  */
-#line 187 "lang.y"
+#line 164 "lang.y"
     {
         
     }
-#line 1462 "y.tab.c"
+#line 1439 "y.tab.c"
     break;
 
   case 22: /* print: LETMESEE CIRCLEOB VARYABLE CIRCLECB SEMICOLON  */
-#line 193 "lang.y"
+#line 170 "lang.y"
     {
 
     }
-#line 1470 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
   case 23: /* assignmemt: VARYABLE ASSIGN exp SEMICOLON  */
-#line 201 "lang.y"
+#line 178 "lang.y"
     {
         idx = FindVar((yyvsp[-3].name));
         printf("pop ");
         PrintReg(idx);   
     }
-#line 1480 "y.tab.c"
+#line 1457 "y.tab.c"
     break;
 
   case 24: /* exp: NUM  */
-#line 212 "lang.y"
+#line 189 "lang.y"
     {
        
        printf("push %d\n", (yyvsp[0].number));
     }
-#line 1489 "y.tab.c"
+#line 1466 "y.tab.c"
     break;
 
   case 25: /* exp: VARYABLE  */
-#line 218 "lang.y"
+#line 195 "lang.y"
     {
         idx = FindVar((yyvsp[0].name));
         printf("push ");
         PrintReg(idx);
     }
-#line 1499 "y.tab.c"
+#line 1476 "y.tab.c"
     break;
 
   case 26: /* exp: NUM ADD NUM  */
-#line 225 "lang.y"
+#line 202 "lang.y"
     {
         printf("push %d\npush %d\nADD\n", (yyvsp[-2].number), (yyvsp[0].number));
     }
-#line 1507 "y.tab.c"
+#line 1484 "y.tab.c"
     break;
 
   case 27: /* exp: VARYABLE ADD NUM  */
-#line 230 "lang.y"
+#line 207 "lang.y"
     {
         idx = FindVar((yyvsp[-2].name));
         printf("push ");
         PrintReg(idx);
         printf("push %d\nADD\n", (yyvsp[0].number));
     }
-#line 1518 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
 
-#line 1522 "y.tab.c"
+#line 1499 "y.tab.c"
 
       default: break;
     }
@@ -1711,12 +1688,12 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 252 "lang.y"
+#line 229 "lang.y"
 
 
 void yyerror(char *s)
 {
-	printf("Syntax Error \n");
+	printf("Syntax Error on line:  %d", lineno);
 	
 }
 
