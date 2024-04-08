@@ -1,30 +1,21 @@
 
 %{
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "const.h"
+
 int yylex();
 void yyerror(char *s);
-extern FILE *yyout;
-extern int lineno;
+
 int num_of_vars = 0;
 int idx = -1;
 int counter_of_labels = 0;
-extern const int MAX_VARIABLE_LENGTH;
-const int REG_RAX             = 0;
-const int REG_RBX             = 1;
-const int REG_RCX             = 2;
-const int REG_RDX             = 3;
-const int REG_REX             = 4;
-const int REG_RFX             = 5;
-
+int counter_of_labels_cycle = -1;
 
 struct variable_struct
 		{
 			char* var_name;
 			int var_type;       // not used yet
 			int ival;           // not used yet
-		}variable[500]; 
+		}variable[500]; // 500 is max amount of variables
 
 
 
@@ -70,10 +61,10 @@ void PrintReg(int index)
 
 %}
 
-%token TYPE VARYABLE NUM SEMICOLON ADD MUL SUB DIV EOL MAIN IF EQUALS LETMESEE NOT_EQUALS FOR CURLYOB CURLYCB CIRCLEOB CIRCLECB
+%token TYPE VARYABLE NUM SEMICOLON ADD MUL SUB DIV EOL MAIN IF EQUALS LETMESEE NOT_EQUALS WHILE END CURLYOB CURLYCB CIRCLEOB CIRCLECB
 %token ASSIGN MORE LESS ELIF ELSE 
 
-%type <name> VARYABLE SEMICOLON TYPE ADD MUL SUB DIV EOL MAIN IF EQUALS LETMESEE NOT_EQUALS FOR CURLYOB CURLYCB CIRCLEOB CIRCLECB ASSIGN MORE LESS ELIF ELSE
+%type <name> VARYABLE SEMICOLON TYPE ADD MUL SUB DIV EOL MAIN IF EQUALS LETMESEE NOT_EQUALS WHILE END CURLYOB CURLYCB CIRCLEOB CIRCLECB ASSIGN MORE LESS ELIF ELSE
 %type <number> NUM 
 
 %union{
@@ -90,14 +81,14 @@ program: { printf("ASM 2\n");}
 
 mainfunc: MAIN CURLYOB commands CURLYCB
 {
-    
+    printf("out \nhlt\n");
 }
 ;
 
 commands:
 |    declaration commands{}
 |   condition commands{}
-|   loop commands{}         //cant work yet
+|   loop commands{}         
 |   print commands{}
 |   assignmemt commands{}
 |   elif_condition commands{}       // cant work yet
@@ -134,7 +125,22 @@ elif_condition:
     condition ELIF CIRCLEOB bool_exp CIRCLECB CURLYOB commands CURLYCB
 ;
 
+loop: while CIRCLEOB bool_exp CIRCLECB CURLYOB commands end_cycle CURLYCB 
+    {
+        printf(":%d\n", counter_of_labels - 1);
+    }
+;
 
+while: WHILE 
+    {
+        printf(":%d\n", counter_of_labels_cycle);
+        counter_of_labels_cycle--;
+    }
+end_cycle: END
+    {
+        printf("push 1\npush 0\n");     // this is for unconditional jump
+        printf("je :%d\n", counter_of_labels_cycle + 1);
+    }
 bool_exp:
     VARYABLE EQUALS VARYABLE    
     {
@@ -148,27 +154,41 @@ bool_exp:
     }
 |   VARYABLE NOT_EQUALS VARYABLE
     {
-        
+        idx = FindVar($1);
+        printf("push ");
+        PrintReg(idx);
+        idx = FindVar($3);
+        printf("push ");
+        PrintReg(idx);
+        printf("jne :%d\n", counter_of_labels++);       
     }
 |   VARYABLE MORE VARYABLE
     {
-
+    idx = FindVar($1);
+        printf("push ");
+        PrintReg(idx);
+        idx = FindVar($3);
+        printf("push ");
+        PrintReg(idx);
+        printf("ja :%d\n", counter_of_labels++);
     }
 |   VARYABLE LESS VARYABLE
     {
-
+        idx = FindVar($1);
+        printf("push ");
+        PrintReg(idx);
+        idx = FindVar($3);
+        printf("push ");
+        PrintReg(idx);
+        printf("jb :%d\n", counter_of_labels++);
     }
 ;
 
-loop: FOR CIRCLEOB assignmemt SEMICOLON bool_exp SEMICOLON assignmemt CIRCLECB CURLYOB commands CURLYCB
-    {
-        
-    }
-;
+
 
 print: LETMESEE CIRCLEOB VARYABLE CIRCLECB SEMICOLON
     {
-
+        
     }
 
 ;
