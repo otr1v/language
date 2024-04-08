@@ -1,5 +1,5 @@
 ASM 2
-push 28
+push 2
 pop rax
 push 30
 pop rcx
@@ -7,13 +7,25 @@ push rax
 push 1
 ADD
 pop rbx
-push rbx
-pop rcx
+:-1
+push rax
 push rcx
+jb :0
+push rax
+push 1
+ADD
+pop rax
 push rbx
-je :0
-push 99
+push rcx
+jb :1
+push 0
 pop rdx
+:1
+push 1
+push 0
+je :-1
 :0
 push 39
 pop rex
+out 
+hlt
