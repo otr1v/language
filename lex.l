@@ -19,7 +19,8 @@ NUM ([0-9])+
 "if"                   { return IF;}
 "elif"                  {return ELIF;}
 "else"                  {return ELSE;}
-"for"                  { return FOR;}
+"end"                    {return END;}
+"while"                  { return WHILE;}
 "!="                   { return NOT_EQUALS;}
 "letmesee"             { return LETMESEE;}      //printf
 
@@ -27,6 +28,9 @@ NUM ([0-9])+
                          return (VARYABLE); }   // variable
 
 "=="                   { return EQUALS;}
+">"                     {return MORE;}
+"!="                     {return NOT_EQUALS;}
+"<"                     {return LESS;}
 "+"                    { return ADD; }
 "-"                    { return SUB; }
 "*"                    { return MUL; }
