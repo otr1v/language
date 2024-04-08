@@ -1,16 +1,22 @@
 main
 {
     int abfkfkf;
-    abfkfkf = 28;
+    abfkfkf = 2;
     int b;
     int c = 30;
     b = abfkfkf + 1;
-    c = b;
-    if (c == b)
+    while (abfkfkf < c)
     {
-        int d = 99;
+        letmesee(c);
+        abfkfkf = abfkfkf + 1;
+        if (b < c)
+        {
+            int d = 0;
+        }
+        end
     }
     -- kfkfjsofokfepkvsjnkv
     int k = 39;
 }
+
 
