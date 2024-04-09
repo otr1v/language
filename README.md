@@ -23,3 +23,4 @@ how to use it?
 4. The output file is out.txt:
    this contains commands of my CPU project, so you can run output.txt as input to CPU
 5. have fun of it >3
+P.S. I've changed stdout -> out.txt
